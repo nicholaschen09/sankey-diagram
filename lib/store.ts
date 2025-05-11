@@ -25,6 +25,20 @@ type DataStore = {
 }
 
 export const useDataStore = create<DataStore>((set) => ({
-  currentData: { nodes: [], links: [] },
+  currentData: {
+    nodes: [
+      { name: "Source A" },
+      { name: "Source B" },
+      { name: "Intermediate" },
+      { name: "Target D" },
+      { name: "Target E" }
+    ],
+    links: [
+      { source: 0, target: 2, value: 10 },
+      { source: 1, target: 2, value: 5 },
+      { source: 2, target: 3, value: 8 },
+      { source: 2, target: 4, value: 7 }
+    ]
+  },
   setCurrentData: (data) => set({ currentData: data }),
 }))
