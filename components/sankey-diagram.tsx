@@ -41,7 +41,9 @@ export function SankeyDiagram() {
   return (
     <div className="h-full flex flex-col">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">Diagram View</h2>
+        <h2 className="text-xl font-semibold text-gray-800">
+          {currentData.name || "Untitled Dataset"}
+        </h2>
         <div className="flex gap-2 items-center">
           <select
             className="border rounded px-2 py-1 text-sm"

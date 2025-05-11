@@ -9,13 +9,11 @@ import { Separator } from "@/components/ui/separator"
 
 export function ValueEditor() {
     const { currentData, updateLinkValue, updateNodeName, updateDatasetName } = useDataStore()
-    const [datasetName, setDatasetName] = useState("")
     const [nodeNames, setNodeNames] = useState<string[]>([])
     const [linkValues, setLinkValues] = useState<number[]>([])
 
     // Update local state when currentData changes
     useEffect(() => {
-        setDatasetName(currentData.name || "")
         setNodeNames(currentData.nodes.map(node => node.name))
         setLinkValues(currentData.links.map(link => link.value))
     }, [currentData])
@@ -28,9 +26,8 @@ export function ValueEditor() {
                 <div className="space-y-2">
                     <Label>Dataset Name</Label>
                     <Input
-                        value={datasetName}
+                        value={currentData.name || ""}
                         onChange={(e) => {
-                            setDatasetName(e.target.value)
                             updateDatasetName(e.target.value)
                         }}
                         placeholder="Enter dataset name"
