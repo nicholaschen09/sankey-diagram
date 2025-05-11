@@ -12,6 +12,19 @@ export function SankeyDiagram() {
   const { currentData, savedData, selectSavedData } = useDataStore()
   const [windowReady, setWindowReady] = useState(false)
 
+  // Convert string source/target to indices for recharts
+  function toIndexLinks(data: { nodes: { name: string }[]; links: { source: string | number; target: string | number; value: number }[] }) {
+    const nameToIndex = Object.fromEntries(data.nodes.map((n: { name: string }, i: number) => [n.name, i]))
+    return {
+      ...data,
+      links: data.links.map((link: { source: string | number; target: string | number; value: number }) => ({
+        ...link,
+        source: typeof link.source === 'number' ? link.source : nameToIndex[link.source],
+        target: typeof link.target === 'number' ? link.target : nameToIndex[link.target],
+      }))
+    }
+  }
+
   useEffect(() => {
     setWindowReady(true)
   }, [])
@@ -48,7 +61,7 @@ export function SankeyDiagram() {
         <div className="flex-1 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <Sankey
-              data={currentData}
+              data={toIndexLinks(currentData)}
               nodePadding={50}
               nodeWidth={10}
               linkCurvature={0.5}
