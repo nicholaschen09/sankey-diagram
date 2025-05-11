@@ -7,6 +7,7 @@ import { CustomTooltip } from "./custom-tooltip"
 import { DataInput } from "./data-input"
 import { Select } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
+import { ValueEditor } from "./value-editor"
 
 export function SankeyDiagram() {
   const { currentData, savedData, selectSavedData } = useDataStore()
@@ -58,21 +59,24 @@ export function SankeyDiagram() {
       </div>
 
       {currentData.nodes.length > 0 ? (
-        <div className="flex-1 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <Sankey
-              data={toIndexLinks(currentData)}
-              nodePadding={50}
-              nodeWidth={10}
-              linkCurvature={0.5}
-              iterations={64}
-              link={{ stroke: "#d1d5db" }}
-              node={<CustomNode />}
-            >
-              <Tooltip content={<CustomTooltip />} />
-              <Layer />
-            </Sankey>
-          </ResponsiveContainer>
+        <div className="flex-1 w-full flex gap-4">
+          <div className="flex-1">
+            <ResponsiveContainer width="100%" height="100%">
+              <Sankey
+                data={toIndexLinks(currentData)}
+                nodePadding={50}
+                nodeWidth={10}
+                linkCurvature={0.5}
+                iterations={64}
+                link={{ stroke: "#d1d5db" }}
+                node={<CustomNode />}
+              >
+                <Tooltip content={<CustomTooltip />} />
+                <Layer />
+              </Sankey>
+            </ResponsiveContainer>
+          </div>
+          <ValueEditor />
         </div>
       ) : (
         <div className="flex items-center justify-center h-full">
