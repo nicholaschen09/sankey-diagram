@@ -18,7 +18,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { validateSankeyData } from "@/lib/validate-data"
 
 export function DataInput() {
-  const { setCurrentData } = useDataStore()
+  const { addSavedData } = useDataStore()
   const [jsonInput, setJsonInput] = useState("")
   const [csvInput, setCsvInput] = useState("")
   const [error, setError] = useState("")
@@ -31,7 +31,7 @@ export function DataInput() {
       const validationResult = validateSankeyData(data)
 
       if (validationResult.valid) {
-        setCurrentData(data)
+        addSavedData(data)
         setOpen(false)
       } else {
         setError(validationResult.error || "Invalid data format")
@@ -77,7 +77,7 @@ export function DataInput() {
         links,
       }
 
-      setCurrentData(data)
+      addSavedData(data)
       setOpen(false)
     } catch (e: any) {
       setError(e.message || "Invalid CSV format. Please check your input.")

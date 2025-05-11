@@ -5,9 +5,11 @@ import { ResponsiveContainer, Sankey, Tooltip, Rectangle, Layer } from "recharts
 import { useDataStore } from "@/lib/store"
 import { CustomTooltip } from "./custom-tooltip"
 import { DataInput } from "./data-input"
+import { Select } from "@/components/ui/select"
+import { Button } from "@/components/ui/button"
 
 export function SankeyDiagram() {
-  const { currentData } = useDataStore()
+  const { currentData, savedData, selectSavedData } = useDataStore()
   const [windowReady, setWindowReady] = useState(false)
 
   useEffect(() => {
@@ -26,7 +28,20 @@ export function SankeyDiagram() {
     <div className="h-full flex flex-col">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold text-gray-800">Diagram View</h2>
-        <DataInput />
+        <div className="flex gap-2 items-center">
+          <select
+            className="border rounded px-2 py-1 text-sm"
+            onChange={e => selectSavedData(Number(e.target.value))}
+            value={savedData.findIndex(d => d === currentData)}
+          >
+            {savedData.map((data, idx) => (
+              <option key={idx} value={idx}>
+                {data.name || `Dataset ${idx + 1}`}
+              </option>
+            ))}
+          </select>
+          <DataInput />
+        </div>
       </div>
 
       {currentData.nodes.length > 0 ? (
