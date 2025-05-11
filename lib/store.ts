@@ -26,6 +26,8 @@ type DataStore = {
   addSavedData: (data: SankeyData) => void
   selectSavedData: (index: number) => void
   updateLinkValue: (linkIndex: number, newValue: number) => void
+  updateNodeName: (nodeIndex: number, newName: string) => void
+  updateDatasetName: (newName: string) => void
 }
 
 export const useDataStore = create<DataStore>((set, get) => ({
@@ -142,6 +144,33 @@ export const useDataStore = create<DataStore>((set, get) => ({
     const updatedSavedData = [...savedData]
     updatedSavedData[currentIndex] = updatedData
 
+    set({ currentData: updatedData, savedData: updatedSavedData })
+  },
+  updateNodeName: (nodeIndex: number, newName: string) => {
+    const { currentData, savedData } = get()
+    const currentIndex = savedData.findIndex(d => d === currentData)
+    
+    if (currentIndex === -1 || nodeIndex >= currentData.nodes.length) return
+    
+    const updatedNodes = [...currentData.nodes]
+    updatedNodes[nodeIndex] = { ...updatedNodes[nodeIndex], name: newName }
+    
+    const updatedData = { ...currentData, nodes: updatedNodes }
+    const updatedSavedData = [...savedData]
+    updatedSavedData[currentIndex] = updatedData
+    
+    set({ currentData: updatedData, savedData: updatedSavedData })
+  },
+  updateDatasetName: (newName: string) => {
+    const { currentData, savedData } = get()
+    const currentIndex = savedData.findIndex(d => d === currentData)
+    
+    if (currentIndex === -1) return
+    
+    const updatedData = { ...currentData, name: newName }
+    const updatedSavedData = [...savedData]
+    updatedSavedData[currentIndex] = updatedData
+    
     set({ currentData: updatedData, savedData: updatedSavedData })
   }
 }))
